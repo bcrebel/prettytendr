@@ -12,7 +12,7 @@ target
 .soroban
 
 # build output
-dist/
+# dist/
 
 # generated types
 .astro/
