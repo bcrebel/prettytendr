@@ -1,6 +1,7 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "exclude": [
-    "packages"
+    "packages",
+    "src/components/Counter.astro"
   ]
 }

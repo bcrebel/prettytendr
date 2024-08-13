@@ -24,8 +24,8 @@
   import { isAllowed, setAllowed, getUserInfo } from '@stellar/freighter-api';
 
   const wrap = document.querySelector('#freighter-wrap');
-  const ellipsis = document.querySelector('#freighter-wrap .ellipsis');
-  const button = document.querySelector('[data-connect]');
+  const ellipsis = document.querySelector('#freighter-wrap .ellipsis') as HTMLElement;
+  const button = document.querySelector('[data-connect]') as HTMLButtonElement;
 
   async function getPk() {
     const { publicKey } = await getUserInfo();
@@ -33,14 +33,14 @@
   }
 
   async function setLoggedIn(publicKey: string) {
-    ellipsis.innerHTML = `Signed in as ${publicKey}`;
-    ellipsis.title = publicKey;
+    ellipsis!.innerHTML = `Signed in as ${publicKey}`;
+    ellipsis!.title = publicKey;
   }
-
+ 
   if (await isAllowed()) {
     const publicKey = await getPk();
     if (publicKey) setLoggedIn(publicKey);
-    else wrap.innerHTML = 'Freighter is locked.<br>Sign in & refresh the page.';
+    else wrap!.innerHTML = 'Freighter is locked.<br>Sign in & refresh the page.';
   } else {
     button.addEventListener('click', async () => {
       button.disabled = true;
