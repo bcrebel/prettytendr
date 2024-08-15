@@ -3,20 +3,21 @@ import Layout from "../layouts/Layout.astro";
 import Nav from '../components/Nav.astro';
 ---
 
+
 <Layout>
     <Nav items={[
         { name: "Earn", link: "/prettytendr/earn" },
         { name: "Exchange", link: "/prettytendr/exchange" }]} 
     />
     <main>  
-        <div class="text-left"> 
-            <h1>All of your rewards in one place. Blase blah de blase blah. Some more words.</h1>
-            <a class="underline" href="/prettytendr/earn">Get Started</a>
+        <div class="text-center">
+            <a class="b" href="/prettytendr/beautyprofile">Beauty Profile</a>
+            <p>10 PT</p>
         </div>
     </main>
 </Layout>
 <style>
     main {
-        @apply flex flex-col h-full items-center justify-center;
+        @apply h-full flex flex-col items-center justify-center; 
     }
 </style>

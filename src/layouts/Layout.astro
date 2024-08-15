@@ -1,9 +1,5 @@
 ---
-interface Props {
-	title: string;
-}
-
-const { title } = Astro.props;
+import '@fontsource-variable/plus-jakarta-sans';
 ---
 
 <!doctype html>
@@ -14,7 +10,6 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
@@ -33,9 +28,10 @@ const { title } = Astro.props;
     );
   }
   html {
-    font-family: system-ui, sans-serif;
-    background: #13151a;
-    background-size: 224px;
+    @apply font-sans;
+  }
+  body {
+    @apply p-5 pt-10 h-screen; 
   }
   code {
     font-family:

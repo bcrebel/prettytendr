@@ -3,5 +3,9 @@
   "exclude": [
     "packages",
     "src/components/Counter.astro"
-  ]
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
 }

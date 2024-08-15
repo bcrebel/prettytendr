@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+
+export type Item = {
+    name: string;
+    link: string;
+};
+
+const { items } = Astro.props as { items: Item[] };
+---
+
+
+<nav>
+    <Image class="logo" width="100" height="100" src="/prettytendr/images/logo.svg" alt="PrettyTendr logo" />
+
+    <ul class="flex">
+        {items.map(({ link, name }) => <li class="ml-2"><a href={link}>{name}</a></li>)}
+    </ul>
+</nav>
+<style is:global>
+    nav {
+        @apply w-full flex justify-between items-center tracking-wide;
+    }
+
+    .logo {
+        @apply -rotate-12;
+    }
+  </style>
