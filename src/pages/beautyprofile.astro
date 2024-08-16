@@ -1,5 +1,12 @@
 ---
-import FreighterConnectButton from '../components/FreighterConnectButton'
+import Layout from '../layouts/Layout.astro'
+import NavReact from '../components/NavReact'
+import BeautyProfileForm from '../components/BeautyProfileForm'
 ---
-
-<FreighterConnectButton client:load />
+<Layout>
+    <NavReact client:load list={[{name: 'Exchange', link: '/prettytendr/exchange' }, { name: 'Earn', link: '/prettytendr/earn' }]} />
+    <main class="max-w-8xl p-10 m-auto">
+        <h1 class="text-xl font-bold tracking-wide">Beauty Profile</h1>
+        <BeautyProfileForm client:load/>
+    </main>
+</Layout>

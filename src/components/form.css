@@ -1,0 +1,7 @@
+input + label {
+    @apply ml-2;
+}
+
+.question {
+    @apply mb-2 block;
+}

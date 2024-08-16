@@ -8,6 +8,9 @@ export default {
 			fontFamily: {
 				sans: ['Plus Jakarta Sans Variable', ...defaultTheme.fontFamily.sans],
 			  },
+			maxWidth: {
+				'8xl': '1280px',
+			}
 		},
 	},
 	plugins: [],

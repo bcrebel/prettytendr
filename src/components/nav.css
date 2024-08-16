@@ -1,0 +1,16 @@
+.menu-item {
+    position: relative;
+}
+
+.menu-item:before {
+    content: '';
+    position: absolute;
+    display: none;
+    width: 100%;
+    border: solid 2px #7df5de;
+    bottom: -10px;
+}
+
+.menu-item:hover:before {
+    display: block;
+}

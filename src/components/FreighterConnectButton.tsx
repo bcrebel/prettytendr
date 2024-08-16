@@ -1,22 +1,34 @@
+import * as pkg from '@stellar/freighter-api';
+
 import { useStore } from '@nanostores/react';
-import { _isAllowed, publicKey } from '../store/wallet'
+import { walletLoading, _isAllowed, publicKey } from '../store/wallet'
+import { message } from '../store/message'
+
+const { setAllowed, getUserInfo } = pkg.default;
 
 const FreighterConnectButton = () => {
-    let $_isAllowed = useStore(_isAllowed)
-    let $publicKey = useStore(publicKey)
+    let $_isAllowed = useStore(_isAllowed);
+    let $publicKey = useStore(publicKey);
+    let $walletLoading = useStore(walletLoading);
 
-    console.log($_isAllowed, $publicKey)
+    const connect = async() => {
+        await setAllowed();
+        const pk = await getUserInfo();
+        publicKey.set(pk.publicKey)
+    }
     
-    if(!$_isAllowed && !$publicKey) return <button>Connect Wallet</button>
-    // const { publicKey, isAllowed, connect } = React.useContext(FreighterContext);
+
+    if(typeof window === "undefined" || $walletLoading) return <button className="base border-gray-400 text-gray-400">Loading...</button>
+
+    if(!$_isAllowed && !$publicKey) return <button className="base" onClick={connect}>Connect Wallet</button>
 
 
     if($_isAllowed) {
-        if($publicKey) return <div>Signed in as {$publicKey}</div>
-
-        return <div>Freighter is locked. Sign in & refresh the page.</div>
+        if($publicKey) return <button className="max-w-24 overflow-hidden">{$publicKey.slice(0, 6)}</button>
+        message.set('Freighter is locked. Sign into Freighter and refresh the page.')
     }
 
+    return <button className="base" onClick={connect}>Connect Wallet</button>
 };
 
 export default FreighterConnectButton;

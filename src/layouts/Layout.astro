@@ -1,5 +1,6 @@
 ---
 import '@fontsource-variable/plus-jakarta-sans';
+import Message from '../components/Message.tsx';
 ---
 
 <!doctype html>
@@ -12,13 +13,14 @@ import '@fontsource-variable/plus-jakarta-sans';
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body>
+    <Message client:only='react' />
 		<slot />
 	</body>
 </html>
 <style is:global>
   :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
+    --accent: 255, 192, 203;
+    --accent-light: 188, 212, 186;
     --accent-dark: 49, 10, 101;
     --accent-gradient: linear-gradient(
       45deg,
@@ -31,7 +33,7 @@ import '@fontsource-variable/plus-jakarta-sans';
     @apply font-sans;
   }
   body {
-    @apply p-5 pt-10 h-screen; 
+    @apply p-5 pt-11 lg:p-10 lg:pt-11 h-screen w-full; 
   }
   code {
     font-family:
@@ -44,26 +46,18 @@ import '@fontsource-variable/plus-jakarta-sans';
       Courier New,
       monospace;
   }
-  button {
-    border: 1px solid rgb(var(--accent));
-    background-color: #23262d;
-    background-image: none;
-    background-size: 400%;
-    border-radius: 7px;
-    color: white;
+  button.base {
+    @apply border-black border-solid border-2 rounded-md;
     cursor: pointer;
-    font-size: inherit;
-    padding: 0.5rem 1rem;
-    background-position: 100%;
-    transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 0.5rem 0.75rem;
   }
-  button:is(:hover, :focus-within) {
+  button.base:is(:hover) {
     color: black;
     background-position: 0;
     background-size: 400%;
     background-image: var(--accent-gradient);
   }
-  button:is(:disabled) {
+  button.base:is(:disabled) {
     color: white;
     background: var(--accent-light);
     cursor: not-allowed;
