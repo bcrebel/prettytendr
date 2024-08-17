@@ -1,5 +1,10 @@
+import { signTransaction } from '@stellar/freighter-api';
+import { useStore } from '@nanostores/react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import './form.css';
+import { publicKey } from '../store/wallet';
+import { message } from '../store/message';
+import complete_profile from "../contracts/beauty_profile";
 
 type FormValues = {
   hairTexture: string;
@@ -7,14 +12,42 @@ type FormValues = {
 };
 
 function BeautyProfileForm() {
+  const $publicKey = useStore(publicKey);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitted },
   } = useForm<FormValues>({ mode: "onChange" });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Form Data: ", data);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    if(!isValid) return;
+
+    if($publicKey) {
+      const tx = await complete_profile.complete_profile($publicKey);
+      const { result } = await tx.signAndSend({signTransaction});
+
+      try {
+        const response = await fetch('/api/reward-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ publicKey: $publicKey }), // Provide the actual user's public key
+        });
+  
+        const result = await response.json();
+        console.log(result.message);
+      } catch (error) {
+        message.set('Something went wrong, please try again later')
+        console.error('Failed to trigger reward listener:', error);
+      }
+    } else {
+      message.set('Sign into your wallet before submitting')
+    }
+
+
+
   };
 
   return (
@@ -96,7 +129,7 @@ function BeautyProfileForm() {
         )}
       </div>
 
-      <button className="bg-black text-white p-1 pl-4 pr-4 mt-5 text-sm" type="submit">
+      <button className="bg-black text-white p-2 pl-4 pr-4 mt-5 text-sm" type="submit">
         Submit
       </button>
     </form>

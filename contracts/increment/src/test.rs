@@ -5,7 +5,7 @@ use soroban_sdk::Env;
 fn increment() {
     let env = Env::default();
     let contract_id = env.register_contract(None, IncrementorContract);
-    let client = IncrementorContractClient::new(&env, &contract_id);
+    let client: IncrementorContractClient = IncrementorContractClient::new(&env, &contract_id);
 
     assert_eq!(client.increment(), 1);
     assert_eq!(client.increment(), 2);

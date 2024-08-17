@@ -16,6 +16,9 @@ permissions:
 
 jobs:
   build:
+    env:
+    ISSUER_PUBLIC_KEY: ${{ secrets.ISSUER_PUBLIC_KEY }}
+    ISSUER_SECRET_KEY: ${{ secrets.ISSUER_SECRET_KEY }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
