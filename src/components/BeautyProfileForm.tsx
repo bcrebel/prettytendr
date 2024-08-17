@@ -1,10 +1,12 @@
-import { signTransaction } from '@stellar/freighter-api';
+import pkg from '@stellar/freighter-api';
 import { useStore } from '@nanostores/react';
 import { useForm, type SubmitHandler } from "react-hook-form";
-import './form.css';
 import { publicKey } from '../store/wallet';
 import { message } from '../store/message';
-import complete_profile from "../contracts/beauty_profile";
+import beauty_profile from "../contracts/beauty_profile";
+import './form.css';
+
+const {signTransaction} = pkg;
 
 type FormValues = {
   hairTexture: string;
@@ -24,10 +26,18 @@ function BeautyProfileForm() {
     if(!isValid) return;
 
     if($publicKey) {
-      const tx = await complete_profile.complete_profile($publicKey);
-      const { result } = await tx.signAndSend({signTransaction});
+      const tx = await beauty_profile.complete_profile({user: $publicKey});
 
       try {
+        const { result } = await tx.signAndSend({
+          signTransaction: async (xdr) => {
+            const signedTxXdr  = await signTransaction(xdr, {network: "TESTNET"});
+            return signedTxXdr;
+          },
+        });
+
+        console.log('result from sAs', result);
+
         const response = await fetch('/api/reward-user', {
           method: 'POST',
           headers: {
@@ -36,8 +46,8 @@ function BeautyProfileForm() {
           body: JSON.stringify({ publicKey: $publicKey }), // Provide the actual user's public key
         });
   
-        const result = await response.json();
-        console.log(result.message);
+        const rewardResult = await response.json();
+        console.log(rewardResult.message);
       } catch (error) {
         message.set('Something went wrong, please try again later')
         console.error('Failed to trigger reward listener:', error);

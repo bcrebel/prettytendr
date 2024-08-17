@@ -29,7 +29,7 @@ function exe(command) {
 }
 
 function fundAll() {
-  exe(`${cli} keys generate ${process.env.SOROBAN_ACCOUNT}`);
+  exe(`${cli} keys generate ${process.env.PUBLIC_SOROBAN_ACCOUNT}`);
 }
 
 function removeFiles(pattern) {
@@ -68,8 +68,8 @@ function contracts() {
       alias: filenameNoExtension(path),
       ...JSON.parse(readFileSync(path))
     }))
-    .filter(data => data.ids[process.env.SOROBAN_NETWORK_PASSPHRASE])
-    .map(data => ({alias: data.alias, id: data.ids[process.env.SOROBAN_NETWORK_PASSPHRASE]}));
+    .filter(data => data.ids[process.env.PUBLIC_SOROBAN_NETWORK_PASSPHRASE])
+    .map(data => ({alias: data.alias, id: data.ids[process.env.PUBLIC_SOROBAN_NETWORK_PASSPHRASE]}));
 }
 
 function bind({alias, id}) {
@@ -89,10 +89,10 @@ function importContract({id, alias}) {
     `import * as Client from '${alias}';\n` +
     `import { rpcUrl } from './util';\n\n` +
     `export default new Client.Client({\n` +
-    `  ...Client.networks.${process.env.SOROBAN_NETWORK},\n` +
+    `  ...Client.networks.${process.env.PUBLIC_SOROBAN_NETWORK},\n` +
     `  rpcUrl,\n` +
     `${
-      process.env.SOROBAN_NETWORK === "local" || "standalone"
+      process.env.PUBLIC_SOROBAN_NETWORK === "local" || "standalone"
         ? `  allowHttp: true,\n`
         : null
     }` +
