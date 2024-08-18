@@ -1,7 +1,83 @@
-input + label {
-    @apply ml-2;
-}
-
-.question {
-    @apply mb-2 block;
-}
+/* Apply TailwindCSS utility classes */
+.form-container {
+    @apply mt-4 lg:max-w-[720px];
+  }
+  
+  /* Base grid layout for mobile */
+  .form-grid {
+    @apply grid grid-cols-1 gap-4;
+  }
+  
+  /* Two columns for small screens and up */
+  @media (min-width: 640px) {
+    .form-grid {
+      @apply grid-cols-2 mb-10;
+    }
+  }
+  
+  /* Three columns for large screens and up */
+  @media (min-width: 1024px) {
+    .form-grid {
+      @apply grid-cols-3;
+    }
+  }
+  
+  /* Textarea column on large screens */
+  @media (min-width: 1024px) {
+    .form-textarea-column {
+      @apply col-span-1;
+    }
+  }
+  
+  /* Column styling */
+  .form-column {
+    @apply flex flex-col gap-4;
+  }
+  
+  /* Specific column styling for the form */
+  .form-column-1 {
+    @apply col-span-1;
+  }
+  
+  .form-column-2 {
+    @apply col-span-1;
+  }
+  
+  /* Label styling */
+  .form-label {
+    @apply block text-lg font-light text-gray-600;
+  }
+  
+  /* Radio button group styling */
+  .form-radio-group {
+    @apply flex flex-col gap-2 mt-2;
+  }
+  
+  /* Radio button styling */
+  .form-radio-label {
+    @apply flex items-center gap-2;
+  }
+  
+  .form-radio-input {
+    @apply h-4 w-4 text-indigo-600 border-gray-300;
+  }
+  
+  /* Textarea styling */
+  .form-textarea {
+    @apply border border-gray-300 rounded-md p-2 w-full;
+  }
+  
+  /* Error message styling */
+  .form-error {
+    @apply text-red-600 text-sm;
+  }
+  
+  /* Submit button styling */
+  .form-submit-button {
+    @apply bg-black text-white py-2 px-4 text-sm rounded-md cursor-pointer;
+  }
+  
+  .form-submit-button:hover {
+    @apply bg-gray-800;
+  }
+  

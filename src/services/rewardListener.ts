@@ -7,19 +7,50 @@ const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.or
 export async function listenForProfileCompletion(userPublicKey: string): Promise<void> {
   const account = await server.loadAccount(ISSUER_PUBLIC_KEY);
 
-  server.transactions()
-    .forAccount(account.accountId())
-    .cursor('now')
-    .stream({
-      onmessage: async (tx: any) => {
-        const ops = await tx.operations();
-        for (const op of ops.records) {
-          if (op.type === 'manage_data' && op.name === 'ProfileCompleted' && op.value === userPublicKey) {
-            await payUser(userPublicKey, 5);
-          }
-        }
-      },
-    });
+  // let lastLedger = await server.getLatestLedger();
+    
+  //   while (true) {
+  //       try {
+  //           const events = await server.getEvents({
+  //               startLedger: lastLedger,
+  //               filters: [
+  //                   {
+  //                       type: 'contract',
+  //                       contractIds: ['CD2PZJ4JEFTTHON7HZ55SXBDE4A36M6JTNOPX6UYTCCTLFFZF66BXQHG'],
+  //                       topics: [['ProfileCompleted']]
+  //                   }
+  //               ]
+  //           });
+
+  //           for (const event of events.events) {
+  //               console.log('Event received:', event);
+  //               // Process your event here
+  //           }
+
+  //           lastLedger = events.latestLedger;
+  //       } catch (error) {
+  //           console.error('Error fetching events:', error);
+  //       }
+
+  //       // Wait for a few seconds before checking for new events
+  //       await new Promise(resolve => setTimeout(resolve, 5000));
+  //   }
+  
+
+  // server.transactions()
+  //   .forAccount(account.accountId())
+  //   .cursor('now')
+  //   .stream({
+  //     onmessage: async (tx: any) => {
+  //       const ops = await tx.operations();
+  //       for (const op of ops.records) {
+  //         console.log('OP', op)
+  //         if (op.type === 'manage_data' && op.name === 'ProfileCompleted' && op.value === userPublicKey) {
+  //           await payUser(userPublicKey, 5);
+  //         }
+  //       }
+  //     },
+  //   });
 }
 
 async function payUser(publicKey: string, amount: number): Promise<void> {

@@ -7,5 +7,6 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: 'https://bcrebel.github.io',
   base: 'prettytendr',
-  integrations: [react(), tailwind()]
+  integrations: [react(), tailwind()],
+  output: 'hybrid'
 });

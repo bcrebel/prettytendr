@@ -1,36 +1,42 @@
+import React from 'react';
 import pkg from '@stellar/freighter-api';
 import {
-  Keypair,
   Contract,
   SorobanRpc,
   Address,
-  Transaction,
   TimeoutInfinite,
   TransactionBuilder,
   BASE_FEE,
   Networks,
   nativeToScVal,
-  Operation,
-  xdr
 } from "@stellar/stellar-sdk";
 import { useStore } from '@nanostores/react';
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { isLoading } from '../store/loadingStore';
 import { publicKey } from '../store/wallet';
 import { message } from '../store/message';
-import beauty_profile from "../contracts/beauty_profile";
 import { sendTx } from '../utils'
+import  Button from './Button'
 import './form.css';
+import LoadingIndicator from './LoadingIndicator';
 const { signTransaction } = pkg;
 const rpc_url = "https://soroban-testnet.stellar.org:443";
 
 
 type FormValues = {
-  hairTexture: string;
-  skinType: string;
+  hairTexture: 'Straight' | 'Wavy' | 'Curly' | 'Coily';
+  skinType: 'Dry' | 'Oily' | 'Combination';
+  skinTone: 'Light' | 'Medium' | 'Dark';
+  hairColor: 'Blonde' | 'Brunette' | 'Red' | 'Black';
+  allergies?: string;
+  skincareConcerns?: string;
 };
 
 function BeautyProfileForm() {
   const $publicKey = useStore(publicKey);
+  const $loading = useStore(isLoading);
+  const [profileStatus, setProfileStatus] = React.useState<'pending' | 'profileSuccess' | 'ptSuccess' | 'failure'>('pending');
+  const [progressMessage, setProgressMessage] = React.useState('Hang tight, submitting your profile...')
 
   const {
     register,
@@ -38,8 +44,17 @@ function BeautyProfileForm() {
     formState: { errors, isValid, isSubmitted },
   } = useForm<FormValues>({ mode: "onChange" });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const options = {
+    hairTexture: ['Straight', 'Wavy', 'Curly', 'Coily'],
+    skinType: ['Dry', 'Oily', 'Combination'],
+    skinTone: ['Light', 'Medium', 'Dark'],
+    hairColor: ['Blonde', 'Brunette', 'Red', 'Black']
+  };
+
+  const onSubmit: SubmitHandler<FormValues> = async (/*data*/) => {
     if(!isValid) return;
+    
+    isLoading.set(true); // Set loading to true
 
     if($publicKey) {
       try {
@@ -73,118 +88,102 @@ function BeautyProfileForm() {
 
         console.log('Signed by: ', signed)
 
-        let transactionToSubmit = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET) 
+        let txToSubmit = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET) 
     
-        const raw = await sendTx({ transactionToSubmit, secondsToWait: 30, server })
+        const { status } = await sendTx({ txToSubmit, secondsToWait: 30, server })
       
-        //return raw
-        console.log(raw)
+        if(status === "SUCCESS") { // if profile submission is successful
+          setProgressMessage('Profile submitted successfully, awarding PT...')
+          const response = await fetch('/prettytendr/api/reward-user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ publicKey: $publicKey, amount: '5' }), // Provide the actual user's public key
+          });
 
-
- 
-
-      //   const response = await fetch('/prettytendr/api/reward-user', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({ publicKey: 'GA2PNJQ5KIE4POCYDQIVHO6OVN3UOVVMMSN4S6NKRHTYG2Y4NBMUOPXO' }), // Provide the actual user's public key
-      //   });
-  
-      //   const rewardResult = await response.json();
-      //   console.log(rewardResult.message);
+          if(response.status === 200) {
+            setProfileStatus("ptSuccess")
+            isLoading.set(false)
+          }
+        }
       } catch (error) {
         message.set('Something went wrong, please try again later')
         console.error('Failed to trigger reward listener:', error);
+        isLoading.set(false);
       }
     } else {
       message.set('Sign into your wallet before submitting')
     }
   };
 
+  const renderRadioGroup = (name: keyof FormValues, label: string, options: string[]) => (
+    <div className="form-group">
+      <label className="form-label">{label}</label>
+      <div className="form-radio-group">
+        {options.map((option) => (
+          <label key={option} htmlFor={option.toLowerCase()} className="form-radio-label">
+            <input
+              type="radio"
+              id={option.toLowerCase()}
+              value={option}
+              {...register(name, { required: true })}
+              className="form-radio-input"
+            />
+            <span>{option}</span>
+          </label>
+        ))}
+        {errors[name] && isSubmitted && (
+          <p className="form-error">A selection is required for {label.toLowerCase()}.</p>
+        )}
+      </div>
+    </div>
+  );
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mt-3">
-        <label className="question">What is your hair texture?</label>
-        <div>
-          <input
-            type="radio"
-            id="straight"
-            value="Straight"
-            {...register("hairTexture", { required: true })}
-          />
-          <label htmlFor="straight">Straight</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="wavy"
-            value="Wavy"
-            {...register("hairTexture", { required: true })}
-          />
-          <label htmlFor="wavy">Wavy</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="curly"
-            value="Curly"
-            {...register("hairTexture", { required: true })}
-          />
-          <label htmlFor="curly">Curly</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="coily"
-            value="Coily"
-            {...register("hairTexture", { required: true })}
-          />
-          <label htmlFor="coily">Coily</label>
-        </div>
-        {errors.hairTexture && isSubmitted && (
-          <p style={{ color: "red" }}>A selection is required for hair texture.</p>
-        )}
+    <>
+      {$loading && profileStatus === 'pending' && <LoadingIndicator message={progressMessage} fullScreen></LoadingIndicator>}
+      {profileStatus !== 'ptSuccess' ? <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+    <div className="form-grid">
+      <div className="form-column">
+        {renderRadioGroup("hairTexture", "What is your hair texture?", options.hairTexture)}
+        {renderRadioGroup("skinType", "What is your skin type?", options.skinType)}
       </div>
 
-      <div className="mt-3">
-        <label className="question">What is your skin type?</label>
-        <div>
-          <input
-            type="radio"
-            id="dry"
-            value="Dry"
-            {...register("skinType", { required: true })}
-          />
-          <label htmlFor="dry">Dry</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="oily"
-            value="Oily"
-            {...register("skinType", { required: true })}
-          />
-          <label htmlFor="oily">Oily</label>
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="combination"
-            value="Combination"
-            {...register("skinType", { required: true })}
-          />
-          <label htmlFor="combination">Combination</label>
-        </div>
-        {errors.skinType && isSubmitted && (
-          <p style={{ color: "red" }}>A selection is required for skin type.</p>
-        )}
+      <div className="form-column">
+        {renderRadioGroup("skinTone", "What is your skin tone?", options.skinTone)}
+        {renderRadioGroup("hairColor", "What is your hair color?", options.hairColor)}
       </div>
 
-      <button className="bg-black text-white p-2 pl-4 pr-4 mt-5 text-sm" type="submit">
-        Submit
-      </button>
-    </form>
+      <div className="form-textarea-column">
+        <div className="form-group">
+          <label htmlFor="allergies" className="form-label">Do you have any allergies? (optional)</label>
+          <textarea
+            id="allergies"
+            {...register("allergies")}
+            className="form-textarea"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="skincareConcerns" className="form-label">Any skincare concerns? (optional)</label>
+          <textarea
+            id="skincareConcerns"
+            {...register("skincareConcerns")}
+            className="form-textarea"
+          />
+        </div>
+      </div>
+    </div>
+
+    <Button onClick={handleSubmit(onSubmit)} type="submit">
+      Submit
+    </Button>
+  </form>
+
+
+ : <p className='pt-5'>Thank you for completing your profile!</p>}
+    </>
   );
 }
 

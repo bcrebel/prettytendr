@@ -1,19 +1,22 @@
-import { SorobanRpc } from "@stellar/stellar-sdk";
-  
+// @ts-nocheck
+// Adapted from @soroban/react
+
+import { SorobanRpc, Address, xdr } from "@stellar/stellar-sdk";
+
   type TxResponse = SorobanRpc.Api.GetTransactionResponse & {
     txHash: string
   }
 
   export async function sendTx({
-    transactionToSubmit,
+    txToSubmit,
     secondsToWait,
     server,
   }: {
-    transactionToSubmit: any
+    txToSubmit: any
     secondsToWait: number
     server: SorobanRpc.Server
   }): Promise<TxResponse> {
-    const sendTransactionResponse = await server.sendTransaction(transactionToSubmit)
+    const sendTransactionResponse = await server.sendTransaction(txToSubmit)
     let getTransactionResponse = await server.getTransaction(
       sendTransactionResponse.hash
     )
@@ -26,11 +29,10 @@ import { SorobanRpc } from "@stellar/stellar-sdk";
         Date.now() < waitUntil &&
         getTransactionResponse.status === 'NOT_FOUND'
       ) {
-        // Wait a beat
+
         await new Promise(resolve => setTimeout(resolve, waitTime))
-        /// Exponential backoff
         waitTime = waitTime * exponentialFactor
-        // See if the transaction is complete
+
         try {
           getTransactionResponse = await server.getTransaction(
             sendTransactionResponse.hash
@@ -46,11 +48,15 @@ import { SorobanRpc } from "@stellar/stellar-sdk";
         SorobanRpc.Api.GetTransactionStatus.NOT_FOUND
       ) {
         console.error(
-          `Waited ${secondsToWait} seconds for transaction to complete, but it did not. ` +
-            `Returning anyway. Check the transaction status manually. ` +
-            `Info: ${JSON.stringify(sendTransactionResponse, null, 2)}`
+          `Transaction exceeded ${secondsToWait} seconds` +
+            `Error: ${JSON.stringify(sendTransactionResponse, null, 2)}`
         )
       }
     
       return { ...getTransactionResponse, txHash: sendTransactionResponse.hash }
     }
+
+      
+
+      
+    
