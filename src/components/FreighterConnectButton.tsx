@@ -4,7 +4,7 @@ import { useStore } from '@nanostores/react';
 import { walletLoading, _isAllowed, publicKey } from '../store/wallet'
 import { message } from '../store/message'
 
-const { setAllowed, getUserInfo } = pkg.default;
+const { setAllowed, getAddress } = pkg.default;
 
 const FreighterConnectButton = () => {
     let $_isAllowed = useStore(_isAllowed);
@@ -13,8 +13,8 @@ const FreighterConnectButton = () => {
 
     const connect = async() => {
         await setAllowed();
-        const pk = await getUserInfo();
-        publicKey.set(pk.publicKey)
+        const pk = await getAddress();
+        publicKey.set(address)
     }
     
 

@@ -1,12 +1,28 @@
 import pkg from '@stellar/freighter-api';
+import {
+  Keypair,
+  Contract,
+  SorobanRpc,
+  Address,
+  Transaction,
+  TimeoutInfinite,
+  TransactionBuilder,
+  BASE_FEE,
+  Networks,
+  nativeToScVal,
+  Operation,
+  xdr
+} from "@stellar/stellar-sdk";
 import { useStore } from '@nanostores/react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { publicKey } from '../store/wallet';
 import { message } from '../store/message';
 import beauty_profile from "../contracts/beauty_profile";
+import { sendTx } from '../utils'
 import './form.css';
+const { signTransaction } = pkg;
+const rpc_url = "https://soroban-testnet.stellar.org:443";
 
-const {signTransaction} = pkg;
 
 type FormValues = {
   hairTexture: string;
@@ -26,28 +42,57 @@ function BeautyProfileForm() {
     if(!isValid) return;
 
     if($publicKey) {
-      const tx = await beauty_profile.complete_profile({user: $publicKey});
-
       try {
-        const { result } = await tx.signAndSend({
-          signTransaction: async (xdr) => {
-            const signedTxXdr  = await signTransaction(xdr, {network: "TESTNET"});
-            return signedTxXdr;
-          },
-        });
+        const server = new SorobanRpc.Server(rpc_url, { allowHttp: true });
+        const sourceAccount = await server.getAccount($publicKey);
 
-        console.log('result from sAs', result);
+        const contract = new Contract('CD2PZJ4JEFTTHON7HZ55SXBDE4A36M6JTNOPX6UYTCCTLFFZF66BXQHG')
+        let tx = new TransactionBuilder(sourceAccount, {
+          fee: BASE_FEE,
+          networkPassphrase: Networks.TESTNET,
+        })
+        .addOperation(contract.call('complete_profile', nativeToScVal(Address.fromString($publicKey))))
+        .setTimeout(TimeoutInfinite)
+        .build()
 
-        const response = await fetch('/api/reward-user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ publicKey: $publicKey }), // Provide the actual user's public key
-        });
+        const simulated: SorobanRpc.Api.SimulateTransactionResponse =
+        await server?.simulateTransaction(tx)
+
+        if (SorobanRpc.Api.isSimulationError(simulated)) {
+          throw new Error(simulated.error)
+        } else if (!simulated.result) {
+          throw new Error(`Invalid simulation: ${simulated}`)
+        }
+
+        tx = await server.prepareTransaction(tx)
+        
+        let signed = await signTransaction(tx.toXDR(), {
+          networkPassphrase: Networks.TESTNET,
+          address: $publicKey,
+        })
+
+        console.log('Signed by: ', signed)
+
+        let transactionToSubmit = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET) 
+    
+        const raw = await sendTx({ transactionToSubmit, secondsToWait: 30, server })
+      
+        //return raw
+        console.log(raw)
+
+
+ 
+
+      //   const response = await fetch('/prettytendr/api/reward-user', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({ publicKey: 'GA2PNJQ5KIE4POCYDQIVHO6OVN3UOVVMMSN4S6NKRHTYG2Y4NBMUOPXO' }), // Provide the actual user's public key
+      //   });
   
-        const rewardResult = await response.json();
-        console.log(rewardResult.message);
+      //   const rewardResult = await response.json();
+      //   console.log(rewardResult.message);
       } catch (error) {
         message.set('Something went wrong, please try again later')
         console.error('Failed to trigger reward listener:', error);
@@ -55,9 +100,6 @@ function BeautyProfileForm() {
     } else {
       message.set('Sign into your wallet before submitting')
     }
-
-
-
   };
 
   return (
@@ -98,7 +140,7 @@ function BeautyProfileForm() {
             value="Coily"
             {...register("hairTexture", { required: true })}
           />
-          <label htmlFor="curly">Curly</label>
+          <label htmlFor="coily">Coily</label>
         </div>
         {errors.hairTexture && isSubmitted && (
           <p style={{ color: "red" }}>A selection is required for hair texture.</p>
