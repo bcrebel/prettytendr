@@ -54,9 +54,9 @@ function BeautyProfileForm() {
   const onSubmit: SubmitHandler<FormValues> = async (/*data*/) => {
     if(!isValid) return;
     
-    isLoading.set(true); // Set loading to true
-
     if($publicKey) {
+      isLoading.set(true); // Set loading to true
+
       try {
         const server = new SorobanRpc.Server(rpc_url, { allowHttp: true });
         const sourceAccount = await server.getAccount($publicKey);
