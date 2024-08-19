@@ -5,7 +5,7 @@ import './nav.css';
 const ReactNav = ({ list }: { list: Item[] }) => {
     return (
         <nav>
-            <a href="/prettytendr"><img className="logo w-[75px]" src='/prettytendr/public/images/logo.svg' alt="PrettyTendr logo" /></a>
+            <a href="/prettytendr"><img className="logo w-[75px]" src='/prettytendr/images/logo.svg' alt="PrettyTendr logo" /></a>
             <ul>
                 {list.map((item) => (
                     <li key={item.link}>
