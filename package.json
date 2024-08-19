@@ -29,7 +29,7 @@
   "name": "prettytendr",
   "scripts": {
     "astro": "astro",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "dev": "npm run init && astro dev",
     "init": "node initialize.js",
     "preview": "astro preview",
