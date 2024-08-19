@@ -1,6 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from '../components/Nav.astro';
+import RewardCard from '../components/RewardCard.astro';
+
+const rewards = [
+    { title: "Complete Profile", pts: 5, url: '/prettytendr/beautyprofile' },
+    { title: "Daily Login", pts: 5 },
+    { title: "Referral", pts: 100 },
+    { title: "Affiliate Purchase", pts: 200, comingSoon: "Coming Soon" },
+    { title: "Review Product", pts: 10 },
+    { title: "Special Promotions", pts: 150, comingSoon: "Coming Soon" }
+];
 ---
 
 
@@ -10,9 +20,12 @@ import Nav from '../components/Nav.astro';
         { name: "Exchange", link: "/prettytendr/exchange" }]} 
     />
     <main>  
-        <div class="text-center">
-            <a class="b" href="/prettytendr/beautyprofile">Beauty Profile</a>
-            <p>10 PT</p>
+    <h1 class="text-xl font-bold tracking-normal">Ways to Earn PT</h1>
+      <div class="p-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {rewards.map((reward) => (
+            <RewardCard title={reward.title} pts={reward.pts} comingSoon={reward.comingSoon} url={reward.url} />
+          ))}
         </div>
     </main>
 </Layout>

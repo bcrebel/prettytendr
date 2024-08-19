@@ -26,7 +26,7 @@ const rpc_url = "https://soroban-testnet.stellar.org:443";
 type FormValues = {
   hairTexture: 'Straight' | 'Wavy' | 'Curly' | 'Coily';
   skinType: 'Dry' | 'Oily' | 'Combination';
-  skinTone: 'Light' | 'Medium' | 'Dark';
+  undertones: 'Warm' | 'Cool' | 'Neutral' | 'Olive';
   hairColor: 'Blonde' | 'Brunette' | 'Red' | 'Black';
   allergies?: string;
   skincareConcerns?: string;
@@ -47,7 +47,7 @@ function BeautyProfileForm() {
   const options = {
     hairTexture: ['Straight', 'Wavy', 'Curly', 'Coily'],
     skinType: ['Dry', 'Oily', 'Combination'],
-    skinTone: ['Light', 'Medium', 'Dark'],
+    undertones: ['Warm', 'Cool', 'Neutral', 'Olive'],
     hairColor: ['Blonde', 'Brunette', 'Red', 'Black']
   };
 
@@ -151,7 +151,7 @@ function BeautyProfileForm() {
       </div>
 
       <div className="form-column">
-        {renderRadioGroup("skinTone", "What is your skin tone?", options.skinTone)}
+        {renderRadioGroup("undertones", "What are your skin undertones?", options.undertones)}
         {renderRadioGroup("hairColor", "What is your hair color?", options.hairColor)}
       </div>
 

@@ -7,13 +7,7 @@ interface LoadingIndicatorProps {
   message?: string;
 }
 
-const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ size = 'medium', fullScreen = false, message }) => {
-  // Tailwind classes for different sizes
-  const sizeClasses = {
-    small: 'h-4 w-4',
-    medium: 'h-6 w-6',
-    large: 'h-8 w-8',
-  };
+const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({ fullScreen = false, message }) => {
 
   return (
     <div className={`flex items-center justify-center ${fullScreen ? 'fixed inset-0 bg-gray-100 bg-opacity-75 z-50' : ''}`}>

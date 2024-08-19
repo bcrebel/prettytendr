@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Nav from '../components/Nav.astro';
+import { Image } from 'astro:assets';
 ---
 
 <Layout>
@@ -8,15 +9,62 @@ import Nav from '../components/Nav.astro';
         { name: "Earn", link: "/prettytendr/earn" },
         { name: "Exchange", link: "/prettytendr/exchange" }]} 
     />
-    <main>  
-        <div class="text-left"> 
-            <h1>All of your rewards in one place. Blase blah de blase blah. Some more words.</h1>
-            <a class="underline" href="/prettytendr/earn">Get Started</a>
+    <main class="m-auto max-w-[1020px]">  
+        <div class="text-left leading-loose top-16 left-10 shadow-xl p-10 bg-white/75 absolute max-w-96 z-10"> 
+            <h1 class="text-xl font-bold">Unlock Your Glow</h1>
+            <h2 class="mt-2">All Your Beauty Rewards in One Place! Discover the future of beauty loyalty with blockchain technology, where your rewards are as innovative as your skincare routine</h2>
+            <a class="py-2 px-4 mt-2 bg-violet-300 hover:bg-violet-400 block" href="/prettytendr/earn">Get Started</a>
         </div>
+        <div class="masked-image">
+            <Image height="1000" width="1000" src="/prettytendr/images/will_do_for_now.png" alt="assorted cosmetics" />
+        </div>
+        <div class="masked-image top">
+            <Image height="300" width="400" src="/prettytendr/images/skincare.png" alt="assorted cosmetics" />
+        </div>
+
     </main>
 </Layout>
 <style>
     main {
-        @apply flex flex-col h-full items-center justify-center;
+        @apply flex flex-col h-full items-center justify-center relative;
     }
+
+    a {
+        width: fit-content;
+    }
+
+    .masked-image {
+        width: 500px; /* Adjust as needed */
+        height: 500px; /* Adjust as needed */
+        -webkit-mask-image: url('/prettytendr/images/scalloped.svg');
+        mask-image: url('/prettytendr/images/scalloped.svg');
+        mask-size: cover;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        position: absolute;
+    }
+
+    .top {
+        left: 44%;
+        top: 12%;
+        height: 350px;
+        width: 400px;;
+    }
+
+    .crop {
+        background-image: url("/prettytendr/images/will_do_for_now.webp");
+        width: 500px;
+        height: 500px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        @apply shadow-xl;
+
+    }
+
+    img {
+        max-width: initial;
+    }
+
+
+
 </style>

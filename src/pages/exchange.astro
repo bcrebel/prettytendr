@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from '../components/Nav.astro';
+---
+
+<Layout>
+    <Nav items={[
+        { name: "Earn", link: "/prettytendr/earn" },
+        { name: "Exchange", link: "/prettytendr/exchange" }]} 
+    />
+    <main>  
+    <h1 class="text-xl font-bold tracking-normal">Coming soon...exchange your PT for beauty samples of your choice!</h1>
+    </main>
+</Layout>
+<style>
+    main {
+        @apply h-full flex flex-col items-center justify-center; 
+    }
+</style>

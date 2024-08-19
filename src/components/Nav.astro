@@ -12,7 +12,7 @@ const { items } = Astro.props as { items: Item[] };
 
 
 <nav>
-    <Image class="logo" width="75" height="75" src="/prettytendr/images/logo.svg" alt="PrettyTendr logo" />
+    <a href="/prettytendr"><Image class="logo" width="75" height="75" src="/prettytendr/images/logo.svg" alt="PrettyTendr logo" /></a>
 
     <ul>
         {items.map(({ link, name }) => <li><a class="menu-item" href={link}>{name}</a></li>)}
@@ -20,7 +20,7 @@ const { items } = Astro.props as { items: Item[] };
 </nav>
 <style is:global>
     nav {
-        @apply w-full flex justify-between items-center tracking-wide;
+        @apply w-full flex justify-between items-center tracking-normal;
     }
 
     ul {

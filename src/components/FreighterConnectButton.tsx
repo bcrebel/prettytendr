@@ -13,10 +13,9 @@ const FreighterConnectButton = () => {
 
     const connect = async() => {
         await setAllowed();
-        const pk = await getAddress();
+        const {address} = await getAddress();
         publicKey.set(address)
     }
-    
 
     if(typeof window === "undefined" || $walletLoading) return <button className="base border-gray-400 text-gray-400">Loading...</button>
 

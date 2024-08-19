@@ -1,0 +1,10 @@
+---
+const { title, pts, comingSoon, url } = Astro.props;
+---
+<a href={url} class="group block bg-gray-900 overflow-hidden shadow-lg h-40 cursor-pointer w-40 md:h-48 w-48 hover:shadow-2xl transition-shadow duration-300">
+  <div class="p-4 h-full flex text-center flex-col items-center justify-center">
+    <h1 class="text-white text-lg font-bold">{title}</h1>
+    <h2 class="text-white text-md">{pts} PT</h2>
+    {comingSoon && <h3 class="text-pink-200 text-sm mt-2">{comingSoon}</h3>}
+  </div>
+</a>

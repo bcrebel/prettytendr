@@ -1,7 +1,7 @@
 import { type APIRoute } from 'astro';
 import StellarSdk from 'stellar-sdk';
 const { ISSUER_SECRET_KEY } = import.meta.env;
-import debug from 'debug'
+
 const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
 
 export const POST: APIRoute = async ({ request }) => {
@@ -40,11 +40,8 @@ export const POST: APIRoute = async ({ request }) => {
     });
   } catch (e) {
       console.error('Error:', e);  // Log error details for debugging
-      debug("An error occurred:", e);
-      debug("Stack trace:", e);
-      console.log(Object.keys(e))
-      console.log(e.response.data)
-      return new Response(JSON.stringify({ error: 'Failed to reward user.', details: e.message }), {
+
+      return new Response(JSON.stringify({ error: 'Failed to reward user.', details: e }), {
         status: 500,
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-  // For establishing trust until PT is recognized
+  //For establishing trust until PT is recognized
   // try {
   //   const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
 
@@ -60,7 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
   //   const asset = new StellarSdk.Asset('PT', 'GCFP6T2KPZU5WL2G5INAWX4P7Q2P7IEDDGJ52NRUK6H2H7K36ODEOYHQ');
 
   //   // Receiver's account
-  //   const receiverKeypair = StellarSdk.Keypair.fromSecret('SBC734KL5Q4ALXQ7EVSCYZTQ4LSZUQLRWZE5BRRO7WMIFA4ZDI4RYP73');
+  //   const receiverKeypair = StellarSdk.Keypair.fromSecret(''); 
   //   const receiverAccount = await server.loadAccount(receiverKeypair.publicKey());
 
   //   // Create a trustline

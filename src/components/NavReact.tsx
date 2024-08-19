@@ -17,8 +17,5 @@ const ReactNav = ({ list }: { list: Item[] }) => {
         </nav>
     );
 }
-<style>
-
-</style>
 
 export default ReactNav;
