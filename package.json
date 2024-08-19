@@ -9,7 +9,7 @@
     "@stellar/freighter-api": "^3.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "astro": "^4.2.4",
+    "astro": "^4.14.2",
     "autoprefixer": "^10.4.20",
     "debug": "^4.3.6",
     "nanostores": "^0.11.2",
