@@ -4,7 +4,7 @@ const { PUBLIC_ASSET_ISSUER_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE }
 
 
 
-// export const prerender = false;
+export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
 
