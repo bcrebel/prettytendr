@@ -1,3 +1,4 @@
+export const prerender = false;
 import { type APIRoute } from 'astro';
 import StellarSdk from 'stellar-sdk';
 const { ISSUER_SECRET_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE } = import.meta.env;
@@ -89,5 +90,4 @@ export const POST: APIRoute = async ({ request }) => {
   //   }
 };
 
-export const prerender = false;
 
