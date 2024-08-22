@@ -1,1 +1,0 @@
-import{u as r,j as t,m as s}from"./message.CyvGmcJJ.js";import"./index.RYns6xqu.js";const a=()=>{const e=r(s);if(e)return t.jsxs("div",{className:"z-10 flex min-h-12 w-screen items-center justify-center fixed top-0 left-0 text-white bg-red-600",children:[e,t.jsx("button",{onClick:()=>s.set(""),className:"absolute right-5",children:"✕"})]})};export{a as default};

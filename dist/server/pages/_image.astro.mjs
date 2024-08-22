@@ -1,10 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import { isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { g as getConfiguredImageService, i as imageConfig, a as assetsDir, o as outDir } from '../chunks/_astro_assets_Bku_U8P3.mjs';
+import { g as getConfiguredImageService, i as imageConfig, a as assetsDir, o as outDir } from '../chunks/_astro_assets_Dw0hyvKL.mjs';
 import { isRemotePath } from '@astrojs/internal-helpers/path';
 import * as mime from 'mrmime';
-import { i as isRemoteAllowed } from '../chunks/astro/assets-service_BA577vZz.mjs';
+import { i as isRemoteAllowed } from '../chunks/astro/assets-service_CgYOuer0.mjs';
 export { renderers } from '../renderers.mjs';
 
 const fnv1a52 = (str) => {

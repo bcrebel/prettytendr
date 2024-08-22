@@ -557,7 +557,7 @@ const baseService = {
     Object.entries(params).forEach(([param, key]) => {
       options[key] && searchParams.append(param, options[key].toString());
     });
-    const imageEndpoint = joinPaths("/prettytendr", "/_image");
+    const imageEndpoint = joinPaths("/prettytendr/", "/_image");
     return `${imageEndpoint}?${searchParams}`;
   },
   parseURL(url) {

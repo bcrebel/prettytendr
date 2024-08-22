@@ -1,6 +1,6 @@
 import { parse } from 'devalue';
 import { escape } from 'html-escaper';
-import { D as DEFAULT_404_COMPONENT } from './astro/server_Dn82D3bF.mjs';
+import { D as DEFAULT_404_COMPONENT } from './astro/server_B6BG73ip.mjs';
 
 const ACTION_QUERY_PARAMS = {
   actionName: "_astroAction",
@@ -8,7 +8,7 @@ const ACTION_QUERY_PARAMS = {
   actionRedirect: "_astroActionRedirect"
 };
 
-const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/prettytendr", "DEV": false, "MODE": "production", "PROD": true, "PUBLIC_SOROBAN_ACCOUNT": "olive", "PUBLIC_SOROBAN_NETWORK": "testnet", "PUBLIC_SOROBAN_NETWORK_PASSPHRASE": "Test SDF Network ; September 2015", "PUBLIC_SOROBAN_RPC_URL": "https://soroban-testnet.stellar.org:443", "SITE": "https://bcrebel.github.io", "SSR": true};
+const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/prettytendr/", "DEV": false, "MODE": "production", "PROD": true, "PUBLIC_ASSET_CODE": "PT", "PUBLIC_ASSET_ISSUER_KEY": "GCFP6T2KPZU5WL2G5INAWX4P7Q2P7IEDDGJ52NRUK6H2H7K36ODEOYHQ", "PUBLIC_SOROBAN_ACCOUNT": "olive", "PUBLIC_SOROBAN_NETWORK": "testnet", "PUBLIC_SOROBAN_NETWORK_PASSPHRASE": "Test SDF Network ; September 2015", "PUBLIC_SOROBAN_RPC_URL": "https://soroban-testnet.stellar.org:443", "PUBLIC_STELLAR_NETWORK_URL": "https://horizon-testnet.stellar.org", "SITE": "https://bcrebel.github.io", "SSR": true};
 const codeToStatusMap = {
   // Implemented from tRPC error code table
   // https://trpc.io/docs/server/error-handling#error-codes
