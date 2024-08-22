@@ -1,9 +1,10 @@
-export const prerender = false;
 import { type APIRoute } from 'astro';
 import StellarSdk from 'stellar-sdk';
 const { ISSUER_SECRET_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE } = import.meta.env;
 
 const server = new StellarSdk.Horizon.Server(PUBLIC_STELLAR_NETWORK_URL);
+
+export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
