@@ -3,14 +3,14 @@ import { Horizon, Keypair, TransactionBuilder, BASE_FEE, Operation, Asset, Netwo
 const { PUBLIC_ASSET_ISSUER_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE } = import.meta.env;
 
 
-const server = new Horizon.Server("https://horizon-testnet.stellar.org");
 
-export const prerender = false;
+// export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
 
   try {
 
+    const server = new Horizon.Server("https://horizon-testnet.stellar.org");
 
     const { privateKey } = await request.json();
 

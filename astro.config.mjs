@@ -9,7 +9,7 @@ export default defineConfig({
   site: 'https://bcrebel.github.io',
   base: '/prettytendr',
   integrations: [react(), tailwind()],
-  output: 'hybrid',
+  output: 'server',
   adapter: node({
     mode: "standalone"
   })
