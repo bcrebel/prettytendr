@@ -4,8 +4,6 @@ const { ISSUER_SECRET_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE } = imp
 
 const server = new StellarSdk.Horizon.Server(PUBLIC_STELLAR_NETWORK_URL);
 
-export const prerender = false;
-
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { publicKey, amount } = await request.json();
