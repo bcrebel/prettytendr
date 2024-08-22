@@ -5,8 +5,6 @@ const { PUBLIC_ASSET_ISSUER_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE }
 
 const server = new Horizon.Server(PUBLIC_STELLAR_NETWORK_URL);
 
-export const prerender = false;
-
 export const POST: APIRoute = async ({ request }) => {
 
   try {
