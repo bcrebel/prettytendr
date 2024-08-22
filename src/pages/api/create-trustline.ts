@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
     const keypair = Keypair.fromSecret(privateKey);
     const account = await server.loadAccount(keypair.publicKey());
 
-    const PTAsset = new Asset(PUBLIC_ASSET_CODE, PUBLIC_ASSET_ISSUER_KEY);
+    const PTAsset = new Asset('PT', 'GCFP6T2KPZU5WL2G5INAWX4P7Q2P7IEDDGJ52NRUK6H2H7K36ODEOYHQ');
 
     const transaction = new TransactionBuilder(account, {
       fee: BASE_FEE,
