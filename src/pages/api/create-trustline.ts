@@ -3,7 +3,7 @@ import { Horizon, Keypair, TransactionBuilder, BASE_FEE, Operation, Asset, Netwo
 const { PUBLIC_ASSET_ISSUER_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE } = import.meta.env;
 
 
-const server = new Horizon.Server(PUBLIC_STELLAR_NETWORK_URL);
+const server = new Horizon.Server("https://horizon-testnet.stellar.org");
 
 export const prerender = false;
 
