@@ -1,8 +1,8 @@
 import { type APIRoute } from 'astro';
 import StellarSdk from 'stellar-sdk';
-const { ISSUER_SECRET_KEY } = import.meta.env;
+const { ISSUER_SECRET_KEY, PUBLIC_STELLAR_NETWORK_URL, PUBLIC_ASSET_CODE } = import.meta.env;
 
-const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
+const server = new StellarSdk.Horizon.Server(PUBLIC_STELLAR_NETWORK_URL);
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
       .addOperation(
         StellarSdk.Operation.payment({
           destination: destinationAccount.publicKey(),
-          asset: new StellarSdk.Asset('PT', issuingKeys.publicKey()),
+          asset: new StellarSdk.Asset(PUBLIC_ASSET_CODE, issuingKeys.publicKey()),
           amount,
         })
       )
@@ -88,3 +88,6 @@ export const POST: APIRoute = async ({ request }) => {
   //     };
   //   }
 };
+
+export const prerender = false;
+

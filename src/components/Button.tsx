@@ -9,7 +9,7 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ isLoading = false, disabled = false, onClick, children, type }) => {
-  const baseStyles = 'inline-flex items-center px-10 py-2 border border-transparent text-base font-medium shadow-sm';
+  const baseStyles = 'inline-flex w-fit items-center px-10 py-2 border border-transparent text-base font-medium shadow-sm';
   const enabledStyles = 'text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500';
   const disabledStyles = 'text-gray-500 bg-gray-200 cursor-not-allowed';
   const loadingStyles = 'bg-blue-600 text-white cursor-wait';

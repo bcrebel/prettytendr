@@ -15,6 +15,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { isLoading } from '../store/loadingStore';
 import { publicKey } from '../store/wallet';
 import { message } from '../store/message';
+import { useTrustlineCheck } from '../hooks/checkTrustline';
 import { sendTx } from '../utils'
 import  Button from './Button'
 import './form.css';
@@ -37,6 +38,7 @@ function BeautyProfileForm() {
   const $loading = useStore(isLoading);
   const [profileStatus, setProfileStatus] = React.useState<'pending' | 'profileSuccess' | 'ptSuccess' | 'failure'>('pending');
   const [progressMessage, setProgressMessage] = React.useState('Hang tight, submitting your profile...')
+  const { hasTrustline, trustlineLoading, error } = useTrustlineCheck({ publicKey: $publicKey });
 
   const {
     register,
@@ -54,6 +56,11 @@ function BeautyProfileForm() {
   const onSubmit: SubmitHandler<FormValues> = async (/*data*/) => {
     if(!isValid) return;
     
+    if(!trustlineLoading && !hasTrustline) {
+      message.set(<>Click &nbsp;<a className="underline" href="/prettytendr/createtrustline">here</a>&nbsp;to establish PT trustline</>)
+      return
+    }
+
     if($publicKey) {
       isLoading.set(true); // Set loading to true
 
@@ -105,6 +112,10 @@ function BeautyProfileForm() {
           if(response.status === 200) {
             setProfileStatus("ptSuccess")
             isLoading.set(false)
+          } else {
+            message.set('Something went wrong, please try again later')
+            isLoading.set(false);
+            console.log(response)
           }
         }
       } catch (error) {

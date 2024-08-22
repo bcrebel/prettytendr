@@ -7,7 +7,7 @@ import node from "@astrojs/node";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://bcrebel.github.io',
-  base: '/prettytendr/',
+  base: 'prettytendr',
   integrations: [react(), tailwind()],
   output: 'hybrid',
   adapter: node({

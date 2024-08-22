@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro'
+import NavReact from '../components/NavReact'
+import CreateTrustlineForm from '../components/trustlineForm'
+---
+<Layout>
+    <NavReact client:load list={[{ name: 'Exchange', link: '/prettytendr/exchange' }, { name: 'Earn', link: '/prettytendr/earn' }]} />
+    <main class="max-w-8xl p-10 m-auto">
+        <div class="md:max-w-[85%]">
+            <h1 class="text-xl font-bold tracking-normal">Create Trustline</h1>
+            <CreateTrustlineForm client:load />
+        </div>
+    </main>
+</Layout>
